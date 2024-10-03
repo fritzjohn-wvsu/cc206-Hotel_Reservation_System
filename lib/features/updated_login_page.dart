@@ -69,9 +69,7 @@ class Login extends StatelessWidget {
             SizedBox(
               width: 200,
               child: ElevatedButton(
-                onPressed: () {
-                  // Add login functionality here
-                },
+                onPressed: () {},
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 25),
                   shape: RoundedRectangleBorder(
