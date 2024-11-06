@@ -98,8 +98,26 @@ class _LoginState extends State<Login> {
             SizedBox(
               width: 200,
               child: ElevatedButton(
-                onPressed: () {
+                onPressed: () async {
                   _formKey.currentState!.validate();
+
+                  String? response = await showDialog<String>(
+                    context : context,
+                    builder: (BuildContext context) {
+                      return AlertDialog(
+                        content: const Text('Do you '),
+                        actions: <Widget>[
+                          TextButton(
+                            child: const Text('Yes'),
+                            onPressed: () => Navigator.pop(context, 'Yes')),
+                          TextButton(
+                          child: const Text('No'),
+                          onPressed: () => Navigator.pop(context, 'No')),
+                        ],
+                      );
+                    },
+                  );
+                  print(response);
                 },
                 style: ElevatedButton.styleFrom(
                   padding: const EdgeInsets.symmetric(vertical: 25),
@@ -154,7 +172,7 @@ class _LoginState extends State<Login> {
          _isSecurePassword = !_isSecurePassword;
       });
 
-    }, icon: _isSecurePassword ? Icon(Icons.visibility) : Icon(Icons.visibility_off));
+    }, icon: _isSecurePassword ? Icon(Icons.visibility_off) : Icon(Icons.visibility));
   }
 }
 
