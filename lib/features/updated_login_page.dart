@@ -93,56 +93,124 @@ class _LoginState extends State<Login> {
                       : null,
                 ),
               ),
-            ),
-            const SizedBox(height: 35),
-            SizedBox(
-              width: 200,
-              child: ElevatedButton(
-                onPressed: () {
-                  _formKey.currentState!.validate();
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 25),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+              const SizedBox(height: 35),
+              // Login Button
+              SizedBox(
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () {
+                    // Validate form fields
+                    if (_formKey.currentState!.validate()) {
+                      // Show success dialog to save login info
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: const Text('Do you want to save your login information?'),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('Yes'),
+                                onPressed: () => Navigator.pop(context, 'Yes'),
+                              ),
+                              TextButton(
+                                child: const Text('No'),
+                                onPressed: () => Navigator.pop(context, 'No'),
+                              ),
+                            ],
+                          );
+                        },
+                      ).then((response) {
+                        print(response);
+                      });
+                    } else {
+                      // Show error dialog if validation fails
+                      showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            title: const Text('Invalid Credentials'),
+                            content: const Text('Please check your email and password.'),
+                            actions: <Widget>[
+                              TextButton(
+                                child: const Text('OK'),
+                                onPressed: () => Navigator.pop(context),
+                              ),
+                            ],
+                          );
+                        },
+                      );
+                    }
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 25),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    backgroundColor: Colors.black,
                   ),
-                  backgroundColor: Colors.black,
-                ),
-                child: const Text(
-                  "Log In",
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
-                    fontWeight: FontWeight.bold,
+                  child: const Text(
+                    "Log In",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
                   ),
                 ),
               ),
-            ),
-            const SizedBox(height: 100),
-            const Center(
-              child: Text(
-                'Forgot password?',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
+
+               const SizedBox(height: 100),
+              // Forgot Password Button
+              Center(
+                child: TextButton(
+                  onPressed: () {
+                    // Define what happens when the 'Forgot password?' button is pressed
+                  },
+                  child: const Text(
+                    'Forgot password?',
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.bold,
+                      color: Colors.grey,
+                    ),
+                    textAlign: TextAlign.center,
+                  ),
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                'Don\'t have an account?  Sign In',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
+              const SizedBox(height: 20),
+              // Sign In Section
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      'Don\'t have an account?',
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                        color: Colors.black,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        // Define what happens when the 'Sign In' button is pressed
+                      },
+                      child: const Text(
+                        'Sign In',
+                        style: TextStyle(
+                          fontSize: 12,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.blue, // Optional color to make it stand out as a button
+                        ),
+                        textAlign: TextAlign.center,
+                      ),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-          ],
-        ),
+            ],
+          ),
         ),
       ),
     );
@@ -159,4 +227,3 @@ class _LoginState extends State<Login> {
     );
   }
 }
-
