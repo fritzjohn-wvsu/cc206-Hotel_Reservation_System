@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-//make the password store
 final _formKey = GlobalKey<FormState>();
 
 void main() {
@@ -25,23 +24,112 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  //store the password
   final TextEditingController _passwordController = TextEditingController();
-  //store the confirm password
   final TextEditingController _confirmPasswordController =
       TextEditingController();
 
   bool _isPasswordVisible = false;
   bool _isConfirmPasswordVisible = false;
 
-  //validate the email
   String? validateEmail(String? email) {
+    if (email == null || email.isEmpty) {
+      return 'Email is required';
+    }
     RegExp emailRegex = RegExp(r'^[\w\.-]+@[\w-]+\.\w{2,3}(\.\w{2,3})?$');
-    final isEmailValid = emailRegex.hasMatch(email ?? '');
+    final isEmailValid = emailRegex.hasMatch(email);
     if (!isEmailValid) {
       return 'Please enter a valid email';
     }
     return null;
+  }
+
+  String? validateUsername(String? username) {
+    if (username == null || username.isEmpty) {
+      return 'Username is required';
+    }
+    return null;
+  }
+
+  String? validatePassword(String? password) {
+    if (password == null || password.isEmpty) {
+      return 'Password is required';
+    }
+    if (password.length < 8) {
+      return 'Password should contain more than 8 characters';
+    }
+    return null;
+  }
+
+  String? validateConfirmPassword(String? confirmPassword) {
+    if (confirmPassword == null || confirmPassword.isEmpty) {
+      return 'Confirm Password is required';
+    }
+    if (confirmPassword != _passwordController.text) {
+      return 'Passwords do not match';
+    }
+    return null;
+  }
+
+  void showDialogValidation(BuildContext context) {
+    // Check if the form is valid (all fields are filled correctly)
+    if (_formKey.currentState!.validate()) {
+      // If all fields are valid, show the confirmation dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Confirm Information'),
+            content: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Text(
+                  'By signing in, you agree to the use of your information and enhance your experience.',
+                ),
+              ],
+            ),
+            actions: <Widget>[
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  TextButton(
+                    child: const Text('Cancel'),
+                    onPressed: () {
+                      Navigator.pop(context, 'Cancel');
+                    },
+                  ),
+                  TextButton(
+                    child: const Text('Confirm'),
+                    onPressed: () {
+                      Navigator.pop(context, 'Confirm');
+                      // Proceed with form submission here
+                    },
+                  ),
+                ],
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // If validation fails, show an error dialog
+      showDialog(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('Error'),
+            content: Text('Please make sure all fields are correctly filled.'),
+            actions: <Widget>[
+              TextButton(
+                child: const Text('OK'),
+                onPressed: () {
+                  Navigator.pop(context); // Close the dialog
+                },
+              ),
+            ],
+          );
+        },
+      );
+    }
   }
 
   @override
@@ -93,6 +181,7 @@ class _HomePageState extends State<HomePage> {
                       border: OutlineInputBorder(),
                       labelText: 'Username',
                     ),
+                    validator: validateUsername,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -143,9 +232,7 @@ class _HomePageState extends State<HomePage> {
                       border: const OutlineInputBorder(),
                       labelText: 'Password',
                     ),
-                    validator: (pass) => (pass == null || pass.length < 8)
-                        ? 'Password should contain more than 8 characters'
-                        : null,
+                    validator: validatePassword,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -179,12 +266,7 @@ class _HomePageState extends State<HomePage> {
                       border: const OutlineInputBorder(),
                       labelText: 'Confirm Password',
                     ),
-                    validator: (conpass) {
-                      if (conpass != _passwordController.text) {
-                        return 'Passwords do not match';
-                      }
-                      return null;
-                    },
+                    validator: validateConfirmPassword,
                   ),
                 ),
                 SizedBox(height: 20),
@@ -198,9 +280,7 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: Colors.black,
                     ),
                     onPressed: () {
-                      if (_formKey.currentState!.validate()) {
-                        // Proceed with sign up
-                      }
+                      showDialogValidation(context); // Show confirmation dialog
                     },
                     child: Text(
                       'Sign In',
