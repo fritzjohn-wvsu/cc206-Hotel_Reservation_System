@@ -1,29 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:cc206_hotel_reservation_system/features/updated_login_page.dart'; // Import the login page
 
 final _formKey = GlobalKey<FormState>();
 
 void main() {
-  runApp(SignUp());
+  runApp(const SignUp());
 }
 
-class SignUp extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      home: const HomePage(),
-    );
-  }
-}
-
-class HomePage extends StatefulWidget {
-  const HomePage({super.key});
+class SignUp extends StatefulWidget {
+  const SignUp({super.key});
 
   @override
   _HomePageState createState() => _HomePageState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _HomePageState extends State<SignUp> {
   final TextEditingController _passwordController = TextEditingController();
   final TextEditingController _confirmPasswordController =
       TextEditingController();
@@ -70,6 +61,7 @@ class _HomePageState extends State<HomePage> {
     return null;
   }
 
+  // Function to show the validation dialog
   void showDialogValidation(BuildContext context) {
     // Check if the form is valid (all fields are filled correctly)
     if (_formKey.currentState!.validate()) {
@@ -78,14 +70,9 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Confirm Information'),
-            content: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                Text(
-                  'By signing in, you agree to the use of your information and enhance your experience.',
-                ),
-              ],
+            title: const Text('Confirm Information'),
+            content: const Text(
+              'By signing in, you agree to the use of your information and enhance your experience.',
             ),
             actions: <Widget>[
               Row(
@@ -101,7 +88,13 @@ class _HomePageState extends State<HomePage> {
                     child: const Text('Confirm'),
                     onPressed: () {
                       Navigator.pop(context, 'Confirm');
-                      // Proceed with form submission here
+                      // Navigate to the LoginPage after confirmation
+                      Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => const UpdateLogin(),
+                        ),
+                      );
                     },
                   ),
                 ],
@@ -116,8 +109,9 @@ class _HomePageState extends State<HomePage> {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('Error'),
-            content: Text('Please make sure all fields are correctly filled.'),
+            title: const Text('Error'),
+            content:
+                const Text('Please make sure all fields are correctly filled.'),
             actions: <Widget>[
               TextButton(
                 child: const Text('OK'),
@@ -143,6 +137,7 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
+                // Sign up title section
                 Column(
                   children: [
                     Padding(
@@ -154,19 +149,21 @@ class _HomePageState extends State<HomePage> {
                         Text(
                           "SIGN IN",
                           style: TextStyle(
-                              color: Colors.black,
-                              fontSize: 50,
-                              fontWeight: FontWeight.bold),
+                            color: Colors.black,
+                            fontSize: 50,
+                            fontWeight: FontWeight.bold,
+                          ),
                         ),
                         Text(
                           "Create Your Account!",
                           style: TextStyle(color: Colors.black87, fontSize: 15),
-                        )
+                        ),
                       ],
-                    )
+                    ),
                   ],
                 ),
                 SizedBox(height: 50),
+                // Username field
                 Container(
                   width: 500,
                   child: TextFormField(
@@ -185,6 +182,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 20),
+                // Email field
                 Container(
                   width: 500,
                   child: TextFormField(
@@ -203,6 +201,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 20),
+                // Password field
                 Container(
                   width: 500,
                   child: TextFormField(
@@ -236,6 +235,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 20),
+                // Confirm Password field
                 Container(
                   width: 500,
                   child: TextFormField(
@@ -270,6 +270,7 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 20),
+                // Sign Up button
                 Container(
                   width: 175,
                   height: 70,
@@ -282,8 +283,8 @@ class _HomePageState extends State<HomePage> {
                     onPressed: () {
                       showDialogValidation(context); // Show confirmation dialog
                     },
-                    child: Text(
-                      'Sign In',
+                    child: const Text(
+                      'Sign Up',
                       style: TextStyle(
                           fontSize: 17,
                           fontWeight: FontWeight.bold,
@@ -291,9 +292,10 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
+                // Sign in with Google button
                 Container(
                   padding: EdgeInsets.fromLTRB(0, 10, 0, 10),
-                  child: Text(
+                  child: const Text(
                     "or",
                     style: TextStyle(
                       color: Colors.black,
@@ -312,7 +314,7 @@ class _HomePageState extends State<HomePage> {
                       backgroundColor: Colors.black,
                     ),
                     onPressed: () {},
-                    child: Text(
+                    child: const Text(
                       'Sign in with Google',
                       style: TextStyle(
                           fontSize: 16,
@@ -322,10 +324,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(height: 20),
+                // Already have an account text
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text(
+                    const Text(
                       "Already have an Account?",
                       style: TextStyle(
                         fontSize: 15,
@@ -336,10 +339,24 @@ class _HomePageState extends State<HomePage> {
                     TextButton(
                       style: TextButton.styleFrom(
                         backgroundColor: Colors.white,
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
                       ),
-                      onPressed: () {},
-                      child: Text('Log in'),
-                    )
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const UpdateLogin()),
+                        );
+                      },
+                      child: const Text(
+                        'Log in',
+                        style: TextStyle(
+                          fontSize: 15,
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ),
                   ],
                 ),
               ],

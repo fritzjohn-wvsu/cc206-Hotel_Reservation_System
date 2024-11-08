@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:cc206_hotel_reservation_system/features/updated_login_page.dart';
+import 'package:cc206_hotel_reservation_system/features/update_sign_up_page.dart';
+import 'package:cc206_hotel_reservation_system/features/sign_up_page.dart';
 import 'package:cc206_hotel_reservation_system/features/login_page.dart';
 
 void main() {
@@ -33,7 +35,13 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Login()
+      initialRoute: 'UpdatedLogin',
+      routes: {
+        'UpdatedLogin': (context) => const UpdateLogin(),
+        'Login': (context) => const LoginPage(),
+        'UpdatedSignup': (context) => const SignUp(),
+        'Signup': (context) => const SignUpPage(),
+      },
     );
   }
 }

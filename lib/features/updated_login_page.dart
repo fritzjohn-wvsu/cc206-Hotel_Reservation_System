@@ -1,3 +1,4 @@
+import 'package:cc206_hotel_reservation_system/features/update_sign_up_page.dart';
 import 'package:flutter/material.dart';
 
 final _formKey = GlobalKey<FormState>();
@@ -43,103 +44,124 @@ class _LoginState extends State<Login> {
         padding: const EdgeInsets.all(16.0),
         child: Form(
           key: _formKey,
-        child: Column(
-          children: [
-            const SizedBox(height: 80),
-            const Center(
-              child: Text(
-                'Welcome',
-                style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const Center(
-              child: Text(
-                'Enter your credential to login',
-                style: TextStyle(fontSize: 15),
-                textAlign: TextAlign.center,
-              ),
-            ),
-            const SizedBox(height: 50),
-            //EmailTextfield
-            SizedBox(
-              width: 500,
-              child: TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                decoration: InputDecoration(
-                  labelText: 'Email',
-                  hintText: 'Enter your email',
-                  prefixIcon: Icon(Icons.mail),
-                  border: OutlineInputBorder(),
+          child: Column(
+            children: [
+              const SizedBox(height: 80),
+              const Center(
+                child: Text(
+                  'Welcome',
+                  style: TextStyle(fontSize: 50, fontWeight: FontWeight.bold),
+                  textAlign: TextAlign.center,
                 ),
-                validator: validateEmail,
               ),
-            ),
-            const SizedBox(height: 20),
-            SizedBox(
-              width: 500,
-              child: TextFormField(
-                obscureText: _isSecurePassword,
-                decoration: InputDecoration(
-                  labelText: 'Password',
-                  hintText: 'Enter your password',
-                  prefixIcon: Icon(Icons.lock),
-                  border: OutlineInputBorder(),
-                   suffixIcon: togglePassword(),
+              const Center(
+                child: Text(
+                  'Enter your credential to login',
+                  style: TextStyle(fontSize: 15),
+                  textAlign: TextAlign.center,
                 ),
-                validator: (pass) => pass!.length <= 8 ? 'Password should contain more than 8 characters' : null,
-               
               ),
-            ),
-            const SizedBox(height: 35),
-            SizedBox(
-              width: 200,
-              child: ElevatedButton(
-                onPressed: () {
-                  _formKey.currentState!.validate();
-                },
-                style: ElevatedButton.styleFrom(
-                  padding: const EdgeInsets.symmetric(vertical: 25),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(50),
+              const SizedBox(height: 50),
+              //EmailTextfield
+              SizedBox(
+                width: 500,
+                child: TextFormField(
+                  keyboardType: TextInputType.emailAddress,
+                  decoration: InputDecoration(
+                    labelText: 'Email',
+                    hintText: 'Enter your email',
+                    prefixIcon: Icon(Icons.mail),
+                    border: OutlineInputBorder(),
                   ),
-                  backgroundColor: Colors.black,
+                  validator: validateEmail,
                 ),
-                child: const Text(
-                  "Log In",
+              ),
+              const SizedBox(height: 20),
+              SizedBox(
+                width: 500,
+                child: TextFormField(
+                  obscureText: _isSecurePassword,
+                  decoration: InputDecoration(
+                    labelText: 'Password',
+                    hintText: 'Enter your password',
+                    prefixIcon: Icon(Icons.lock),
+                    border: OutlineInputBorder(),
+                    suffixIcon: togglePassword(),
+                  ),
+                  validator: (pass) => pass!.length <= 8
+                      ? 'Password should contain more than 8 characters'
+                      : null,
+                ),
+              ),
+              const SizedBox(height: 35),
+              SizedBox(
+                width: 200,
+                child: ElevatedButton(
+                  onPressed: () {
+                    _formKey.currentState!.validate();
+                  },
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 25),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(50),
+                    ),
+                    backgroundColor: Colors.black,
+                  ),
+                  child: const Text(
+                    "Log In",
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 17,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 100),
+              const Center(
+                child: Text(
+                  'Forgot password?',
                   style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 17,
+                    fontSize: 12,
                     fontWeight: FontWeight.bold,
+                    color: Colors.grey,
                   ),
+                  textAlign: TextAlign.center,
                 ),
               ),
-            ),
-            const SizedBox(height: 100),
-            const Center(
-              child: Text(
-                'Forgot password?',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.grey,
+              const SizedBox(height: 20),
+              Center(
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Text(
+                      "Don't have an account? ",
+                      style: TextStyle(
+                        fontSize: 12,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      textAlign: TextAlign.center,
+                    ),
+                    TextButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => const SignUp()),
+                        );
+                      },
+                      child: const Text("Sign In",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontSize: 12,
+                            fontWeight: FontWeight.bold,
+                          )),
+                    ),
+                  ],
                 ),
-                textAlign: TextAlign.center,
               ),
-            ),
-            const SizedBox(height: 20),
-            const Center(
-              child: Text(
-                'Don\'t have an account?  Sign In',
-                style: TextStyle(
-                  fontSize: 12,
-                  fontWeight: FontWeight.bold,
-                ),
-                textAlign: TextAlign.center,
-              ),
-            ),
-          ],
-        ),
+            ],
+          ),
         ),
       ),
     );
@@ -147,11 +169,14 @@ class _LoginState extends State<Login> {
 
   // Toggle Password Visibility
   Widget togglePassword() {
-    return IconButton(onPressed: () {
-      setState(() {
-         _isSecurePassword = !_isSecurePassword;
-      });
-
-    }, icon: _isSecurePassword ? Icon(Icons.visibility) : Icon(Icons.visibility_off));
+    return IconButton(
+        onPressed: () {
+          setState(() {
+            _isSecurePassword = !_isSecurePassword;
+          });
+        },
+        icon: _isSecurePassword
+            ? Icon(Icons.visibility)
+            : Icon(Icons.visibility_off));
   }
 }
