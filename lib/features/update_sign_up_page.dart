@@ -129,6 +129,7 @@ class _HomePageState extends State<SignUp> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: Colors.white,
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(16.0),
@@ -147,7 +148,7 @@ class _HomePageState extends State<SignUp> {
                     Column(
                       children: [
                         Text(
-                          "SIGN IN",
+                          "Sign In",
                           style: TextStyle(
                             color: Colors.black,
                             fontSize: 50,
